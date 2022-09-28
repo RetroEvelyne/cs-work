@@ -49,8 +49,8 @@ def creategui():
     grid = [0]
     menuscreen = Tk()
     empty = PhotoImage(file=r"H:\PogSci\emptypng.png")
-    yellowfill = PhotoImage(file=r"H:\PogSci\yellowfill.png")
-    redfill = PhotoImage(file=r"H:\PogSci\redfill.png")
+    yellowfill = PhotoImage(file=r"/Connect4/yellowfill.png")
+    redfill = PhotoImage(file=r"/Connect4/redfill.png")
     menuscreen.title("Connect Four!")
     menuscreen.geometry("743x638")
     turn = Label(menuscreen, text="red")

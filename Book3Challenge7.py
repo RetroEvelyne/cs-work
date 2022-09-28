@@ -11,7 +11,7 @@ from colored import fore
 
 
 def clearscreen():
-    print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
+    print("\n"*50)
 
 
 def setup():

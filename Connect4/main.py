@@ -2,28 +2,97 @@ from tkinter import *
 
 
 def wincheck(menuscreen, row, column):
-    inarow = 0
+    inarow = 1
     startbutt = (menuscreen.grid_slaves(row=row, column=column)[0]).cget("image")
-    try:
-        # Checking the one above it
-        if (menuscreen.grid_slaves(row=(row-1), column=column)[0]).cget("image") == startbutt:
-            inarow += 1
-            newrow = row - 1
-            print("hallo")
-            while (menuscreen.grid_slaves(row=newrow, column=column)[0]).cget("image") == startbutt:
+    forrow = row
+    backrow = row
+    forcol = column
+    backcol = column
+    # Checking the one below it
+    for i in range(4):
+        try:
+            if (menuscreen.grid_slaves(row=(forrow + 1), column=column)[0]).cget("image") == startbutt:
+                forrow += 1
                 inarow += 1
-                newrow -= 1
-            while inarow < 4:
-                try:
-                    if (menuscreen.grid_slaves(row=(row+1), column=column)[0]).cget("image") == startbutt:
-                        inarow += 1
-                except TclError:
-                    pass
+            elif (menuscreen.grid_slaves(row=(backrow - 1), column=column)[0]).cget("image") == startbutt:
+                backrow -= 1
+                inarow += 1
+        except TclError:
+            pass
+        except IndexError:
+            pass
+    if inarow >= 4:
+        return "win"
+    forrow = row
+    backrow = row
+    forcol = column
+    backcol = column
+    inarow = 1
+    for i in range(4):
+        try:
+            if (menuscreen.grid_slaves(row=row, column=(forcol + 1))[0]).cget("image") == startbutt:
+                forcol += 1
+                inarow += 1
+            if (menuscreen.grid_slaves(row=row, column=(backcol - 1))[0]).cget("image") == startbutt:
+                backcol -= 1
+                inarow += 1
+        except TclError:
+            pass
+        except IndexError:
+            pass
+    if inarow >= 4:
+        return "win"
+    forrow = row
+    backrow = row
+    forcol = column
+    backcol = column
+    inarow = 1
+    for i in range(4):
+        try:
+            if (menuscreen.grid_slaves(row=(forrow + 1), column=(forcol + 1))[0]).cget("image") == startbutt:
+                forcol += 1
+                forrow += 1
+                inarow += 1
+            if (menuscreen.grid_slaves(row=(backrow - 1), column=(backcol - 1))[0]).cget("image") == startbutt:
+                backcol -= 1
+                backrow -= 1
+                inarow += 1
+        except TclError:
+            pass
+        except IndexError:
+            pass
+    if inarow >= 4:
+        return "win"
+    forrow = row
+    backrow = row
+    forcol = column
+    backcol = column
+    inarow = 1
+    for i in range(4):
+        try:
+            if (menuscreen.grid_slaves(row=(forrow + 1), column=(forcol - 1))[0]).cget("image") == startbutt:
+                forcol -= 1
+                forrow += 1
+                inarow += 1
+            if (menuscreen.grid_slaves(row=(backrow - 1), column=(backcol + 1))[0]).cget("image") == startbutt:
+                backcol += 1
+                backrow -= 1
+                inarow += 1
+        except TclError:
+            pass
+        except IndexError:
+            pass
+    if inarow >= 4:
+        return "win"
 
 
-        if (menuscreen.grid_slaves(row=(row+1))) +
-    except TclError:
-        pass
+def update(menuscreen, ind, framecnt, frms, win):
+    frame = frms[ind]
+    ind += 1
+    if ind == framecnt:
+        ind = 0
+    win.configure(image=frame)
+    menuscreen.after(100, update, menuscreen, ind, framecnt, frms, win)
 
 
 def fill(row, column, menuscreen, empty, yellowfill, redfill, turn):
@@ -42,15 +111,26 @@ def fill(row, column, menuscreen, empty, yellowfill, redfill, turn):
     elif turn.cget("text") == "yellow":
         value.configure(image=yellowfill)
         turn.configure(text="red")
-    wincheck(menuscreen, row, column)
+    if wincheck(menuscreen, row, column) == "win":
+        for i in range(0, 6):
+            for o in range(0, 7):
+                (menuscreen.grid_slaves(row=i, column=o)[0]).destroy()
+        (menuscreen.grid_slaves(row=7, column=3)[0]).destroy()
+        menuscreen.geometry("498x266")
+        framecnt = 28
+        frms = [PhotoImage(file=r"H:\PogSci\Connect4\wingif.gif", format="gif -index %i" % i) for i in range(framecnt)]
+        win = Label(menuscreen)
+        win.grid(row=0, column=0)
+        ind = 0
+        menuscreen.after(0, update, menuscreen, ind, framecnt, frms, win)
 
 
 def creategui():
     grid = [0]
     menuscreen = Tk()
-    empty = PhotoImage(file=r"H:\PogSci\emptypng.png")
-    yellowfill = PhotoImage(file=r"/Connect4/yellowfill.png")
-    redfill = PhotoImage(file=r"/Connect4/redfill.png")
+    empty = PhotoImage(file=r"H:\PogSci\Connect4\emptypng.png")
+    yellowfill = PhotoImage(file=r"H:\PogSci\Connect4\yellowfill.png")
+    redfill = PhotoImage(file=r"H:\PogSci\Connect4\redfill.png")
     menuscreen.title("Connect Four!")
     menuscreen.geometry("743x638")
     turn = Label(menuscreen, text="red")

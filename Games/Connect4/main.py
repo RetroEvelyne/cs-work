@@ -6,8 +6,6 @@ def wincheck(menuscreen, row, column):
     startbutt = (menuscreen.grid_slaves(row=row, column=column)[0]).cget("image")
     forrow = row
     backrow = row
-    forcol = column
-    backcol = column
     # Checking the one below it
     for i in range(4):
         try:
@@ -23,8 +21,6 @@ def wincheck(menuscreen, row, column):
             pass
     if inarow >= 4:
         return "win"
-    forrow = row
-    backrow = row
     forcol = column
     backcol = column
     inarow = 1
@@ -95,7 +91,7 @@ def update(menuscreen, ind, framecnt, frms, win):
     menuscreen.after(100, update, menuscreen, ind, framecnt, frms, win)
 
 
-def fill(row, column, menuscreen, empty, yellowfill, redfill, turn):
+def fill(row, column, menuscreen, yellowfill, redfill, turn):
     value = menuscreen.grid_slaves(row=row, column=column)[0]
     if value.cget("image") != "pyimage1":
         return
@@ -103,8 +99,6 @@ def fill(row, column, menuscreen, empty, yellowfill, redfill, turn):
         if (menuscreen.grid_slaves(row=(row + 1), column=column)[0]).cget("image") == "pyimage1":
             value = menuscreen.grid_slaves(row=(row + 1), column=column)[0]
             row += 1
-        else:
-            break
     if turn.cget("text") == "red":
         value.configure(image=redfill)
         turn.configure(text="yellow")
@@ -118,7 +112,7 @@ def fill(row, column, menuscreen, empty, yellowfill, redfill, turn):
         (menuscreen.grid_slaves(row=7, column=3)[0]).destroy()
         menuscreen.geometry("498x266")
         framecnt = 28
-        frms = [PhotoImage(file=r"H:\PogSci\Connect4\wingif.gif", format="gif -index %i" % i) for i in range(framecnt)]
+        frms = [PhotoImage(file=r"/Games/Connect4/wingif.gif", format="gif -index %i" % i) for i in range(framecnt)]
         win = Label(menuscreen)
         win.grid(row=0, column=0)
         ind = 0
@@ -128,16 +122,16 @@ def fill(row, column, menuscreen, empty, yellowfill, redfill, turn):
 def creategui():
     grid = [0]
     menuscreen = Tk()
-    empty = PhotoImage(file=r"H:\PogSci\Connect4\emptypng.png")
-    yellowfill = PhotoImage(file=r"H:\PogSci\Connect4\yellowfill.png")
-    redfill = PhotoImage(file=r"H:\PogSci\Connect4\redfill.png")
+    empty = PhotoImage(file=r"/Games/Connect4/emptypng.png")
+    yellowfill = PhotoImage(file=r"/Games/Connect4/yellowfill.png")
+    redfill = PhotoImage(file=r"/Games/Connect4/redfill.png")
     menuscreen.title("Connect Four!")
     menuscreen.geometry("743x638")
     turn = Label(menuscreen, text="red")
     for i in range(0, 6):
         for o in range(0, 7):
             grid.insert(o, Button(menuscreen, image=empty, command=lambda row=i, column=o: fill(row, column, menuscreen,
-                                                                                                empty, yellowfill,
+                                                                                                yellowfill,
                                                                                                 redfill, turn)))
             grid[o].grid(column=o, row=i)
     turn.grid(row=7, column=3)

@@ -3,8 +3,10 @@
 # http://inventwithpython.com/pygame
 # Released under a "Simplified BSD" license
 
-from curses import KEY_C1
-import random, pygame, sys
+import pygame
+import random
+import sys
+
 from pygame.locals import *
 
 FPS = 15
@@ -17,12 +19,12 @@ CELLWIDTH = int(WINDOWWIDTH / CELLSIZE)
 CELLHEIGHT = int(WINDOWHEIGHT / CELLSIZE)
 
 #             R    G    B
-WHITE     = (255, 255, 255)
-BLACK     = ( 70,  50,  70)
-RED       = (255,   0,   0)
-GREEN     = (  0, 255,   0)
-DARKGREEN = (  0, 155,   0)
-DARKGRAY  = ( 40,  40,  40)
+WHITE = (255, 255, 255)
+BLACK = (70, 50, 70)
+RED = (255, 0, 0)
+GREEN = (0, 255, 0)
+DARKGREEN = (0, 155, 0)
+DARKGRAY = (40, 40, 40)
 BGCOLOR = BLACK
 
 UP = 'up'
@@ -30,7 +32,8 @@ DOWN = 'down'
 LEFT = 'left'
 RIGHT = 'right'
 
-HEAD = 0 # syntactic sugar: index of the worm's head
+HEAD = 0  # syntactic sugar: index of the worm's head
+
 
 def main():
     global FPSCLOCK, DISPLAYSURF, BASICFONT
@@ -50,7 +53,7 @@ def runGame():
     # Set a random start point.
     startx = random.randint(5, CELLWIDTH - 6)
     starty = random.randint(5, CELLHEIGHT - 6)
-    wormCoords = [{'x': startx,     'y': starty},
+    wormCoords = [{'x': startx, 'y': starty},
                   {'x': startx - 1, 'y': starty},
                   {'x': startx - 2, 'y': starty}]
     direction = RIGHT
@@ -64,12 +67,12 @@ def runGame():
     apple2 = getRandomLocation(wormCoords)
     apple3 = getRandomLocation(wormCoords)
 
-    while True: # main game loop
-        for event in pygame.event.get(): # event handling loop
+    while True:  # main game loop
+        for event in pygame.event.get():  # event handling loop
             if event.type == QUIT:
                 terminate()
             elif event.type == KEYDOWN:
-                if (event.key == K_LEFT or event.key == K_a):
+                if event.key == K_LEFT or event.key == K_a:
                     direction = LEFT
                 elif (event.key == K_RIGHT or event.key == K_d):
                     direction = RIGHT
@@ -95,9 +98,10 @@ def runGame():
                     scoreHack = not scoreHack
 
         # check if the worm has hit itself or the edge
-        if wormCoords[HEAD]['x'] == -1 or wormCoords[HEAD]['x'] == CELLWIDTH or wormCoords[HEAD]['y'] == -1 or wormCoords[HEAD]['y'] == CELLHEIGHT:
+        if wormCoords[HEAD]['x'] == -1 or wormCoords[HEAD]['x'] == CELLWIDTH or wormCoords[HEAD]['y'] == -1 or \
+                wormCoords[HEAD]['y'] == CELLHEIGHT:
             if collisions:
-                return # game over
+                return  # game over
             else:
                 if direction == LEFT:
                     newHead = {'x': WINDOWWIDTH / 20, 'y': wormCoords[HEAD]['y']}
@@ -130,7 +134,7 @@ def runGame():
         if collisions:
             for wormBody in wormCoords[1:]:
                 if wormBody['x'] == wormCoords[HEAD]['x'] and wormBody['y'] == wormCoords[HEAD]['y']:
-                    return # game over
+                    return  # game over
 
         # check if worm has eaten an apply
         if (wormCoords[HEAD]['x'] == apple['x'] and wormCoords[HEAD]['y'] == apple['y']):
@@ -139,23 +143,23 @@ def runGame():
                 Score *= 2
             else:
                 Score += 1
-            apple = getRandomLocation(wormCoords) # set a new apple somewhere
+            apple = getRandomLocation(wormCoords)  # set a new apple somewhere
         elif (wormCoords[HEAD]['x'] == apple2['x'] and wormCoords[HEAD]['y'] == apple2['y']):
             # don't remove worm's tail segment
             if scoreHack == True:
                 Score *= 2
             else:
                 Score += 1
-            apple2 = getRandomLocation(wormCoords) # set a new apple somewhere
+            apple2 = getRandomLocation(wormCoords)  # set a new apple somewhere
         elif (wormCoords[HEAD]['x'] == apple3['x'] and wormCoords[HEAD]['y'] == apple3['y']):
             # don't remove worm's tail segment
             if scoreHack == True:
                 Score *= 2
             else:
                 Score += 1
-            apple3 = getRandomLocation(wormCoords) # set a new apple somewhere
+            apple3 = getRandomLocation(wormCoords)  # set a new apple somewhere
         else:
-            del wormCoords[-1] # remove worm's tail segment
+            del wormCoords[-1]  # remove worm's tail segment
         # move the worm by adding a segment in the direction it is moving
         if direction == UP:
             newHead = {'x': wormCoords[HEAD]['x'], 'y': wormCoords[HEAD]['y'] - 1}
@@ -175,6 +179,7 @@ def runGame():
         drawMenu(Score, FPS, collisions, scoreHack)
         pygame.display.update()
         FPSCLOCK.tick(FPS)
+
 
 def drawPressKeyMsg():
     pressKeySurf = BASICFONT.render('Press a key to play.', True, DARKGRAY)
@@ -217,12 +222,12 @@ def showStartScreen():
         drawPressKeyMsg()
 
         if checkForKeyPress():
-            pygame.event.get() # clear event queue
+            pygame.event.get()  # clear event queue
             return
         pygame.display.update()
         FPSCLOCK.tick(FPS)
-        degrees1 += 3 # rotate by 3 degrees each frame
-        degrees2 += 7 # rotate by 7 degrees each frame
+        degrees1 += 3  # rotate by 3 degrees each frame
+        degrees2 += 7  # rotate by 7 degrees each frame
 
 
 def terminate():
@@ -251,12 +256,13 @@ def showGameOverScreen():
     drawPressKeyMsg()
     pygame.display.update()
     pygame.time.wait(500)
-    checkForKeyPress() # clear out any key presses in the event queue
+    checkForKeyPress()  # clear out any key presses in the event queue
 
     while True:
         if checkForKeyPress():
-            pygame.event.get() # clear event queue
+            pygame.event.get()  # clear event queue
             return
+
 
 def drawMenu(score, FPS, collisions, scoreHack):
     scoreSurf = BASICFONT.render('Score: %s' % (score), True, WHITE)
@@ -301,9 +307,9 @@ def drawApple(coord):
 
 
 def drawGrid():
-    for x in range(0, WINDOWWIDTH, CELLSIZE): # draw vertical lines
+    for x in range(0, WINDOWWIDTH, CELLSIZE):  # draw vertical lines
         pygame.draw.line(DISPLAYSURF, DARKGRAY, (x, 0), (x, WINDOWHEIGHT))
-    for y in range(0, WINDOWHEIGHT, CELLSIZE): # draw horizontal lines
+    for y in range(0, WINDOWHEIGHT, CELLSIZE):  # draw horizontal lines
         pygame.draw.line(DISPLAYSURF, DARKGRAY, (0, y), (WINDOWWIDTH, y))
 
 

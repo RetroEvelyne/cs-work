@@ -1,32 +1,90 @@
 import pygame
 
 
-def drawcharacter(x, y, screen, charactersprite):
+# TODO: THINGS TO TELL MADDIE
+# probs need a class for the character and the obstacles
+
+def draw_character(x, y, screen, charactersprite):
     screen.fill((0, 0, 0))
     screen.blit(charactersprite, (x, y))
     pygame.display.flip()
     return
 
 
-def move(x, y, screen, charactersprite, direction):
+def move_character(x, y, screen, charactersprite, direction):
     if direction == "left":
-        x += 1
-        drawcharacter(x, y, screen, charactersprite)
+        x -= 0.4
+        draw_character(x, y, screen, charactersprite)
     elif direction == "right":
-        x -= 1
-        drawcharacter(x, y, screen, charactersprite)
+        x += 0.2
+        draw_character(x, y, screen, charactersprite)
+    if x < 0:
+        return 0
+    if x > 448:
+        return 448
+    return x
 
 
-def jump(x, y, screen, charactersprite):
+def jump_character(x, y, screen, charactersprite):
     temp = 0.2
     for i in range(4000):
         y -= temp
-        drawcharacter(x, y, screen, charactersprite)
+        draw_character(x, y, screen, charactersprite)
         temp -= 0.0001
+        # print(x, y)
+
+
+def duckcharacter():
+    pass
+
+
+def game(x, y, screen, character_sprite, move, jump, direction):
+    running = True
+
+    while running:
+        for event in pygame.event.get():
+            match event.type:
+                case pygame.QUIT:
+                    running = False
+
+                case pygame.KEYDOWN:
+                    match event.key:
+                        case pygame.K_UP:
+                            jump = True
+                        case pygame.K_LEFT:
+                            direction = "left"
+                            move = True
+                        case pygame.K_RIGHT:
+                            direction = "right"
+                            move = True
+                        case pygame.K_DOWN:
+                            duck = True
+                            # TODO
+
+                case pygame.KEYUP:
+                    match event.key:
+                        case pygame.K_UP:
+                            jump = False
+                        case pygame.K_LEFT:
+                            move = False
+                        case pygame.K_RIGHT:
+                            move = False
+                        case pygame.K_DOWN:
+                            duck = False
+        draw_character(x, y, screen, character_sprite)
+        if jump:
+            jump_character(x, y, screen, character_sprite)
+        if move:
+            x = move_character(x, y, screen, character_sprite, direction)
+        if y < 448:
+            y += 1
+        # print(x, y)
 
 
 def main():
     x, y = 224, 0
+    move, jump = False, False
+    direction = "left"
     pygame.init()
     logo = pygame.image.load("logo.png")
     charactersprite = pygame.image.load("character.png")
@@ -35,29 +93,7 @@ def main():
 
     screen = pygame.display.set_mode((512, 512))
 
-    running = True
-
-    while running:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                running = False
-            elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_UP:
-                    jump(x, y, screen, charactersprite)
-                if event.key == pygame.K_LEFT:
-                    direction = "left"
-                    move = True
-                if event.key == pygame.K_RIGHT:
-                    direction = "right"
-                    move = True
-            elif event.type == pygame.KEYUP:
-                if event.key == pygame.K_LEFT:
-                    pass
-                if event.key == pygame.K_RIGHT:
-                    pass
-        drawcharacter(x, y, screen, charactersprite)
-        if y < 448:
-            y += 1
+    game(x, y, screen, charactersprite, move, jump, direction)
 
 
 if __name__ == "__main__":

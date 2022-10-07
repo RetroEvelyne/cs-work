@@ -1,46 +1,82 @@
 import pygame
 
 
-# TODO: THINGS TO TELL MADDIE
-# probs need a class for the character and the obstacles
+class Background:
+    def __init__(self):
+        self.bgimage = pygame.image.load("background.png")
+        self.rectBGimg = self.bgimage.get_rect()
 
-def draw_character(x, y, screen, charactersprite):
-    screen.fill((0, 0, 0))
-    screen.blit(charactersprite, (x, y))
-    pygame.display.flip()
-    return
+        self.bgY1 = 0
+        self.bgX1 = 0
 
+        self.bgY2 = 0
+        self.bgX2 = self.rectBGimg.width
 
-def move_character(x, y, screen, charactersprite, direction):
-    if direction == "left":
-        x -= 0.4
-        draw_character(x, y, screen, charactersprite)
-    elif direction == "right":
-        x += 0.2
-        draw_character(x, y, screen, charactersprite)
-    if x < 0:
-        return 0
-    if x > 448:
-        return 448
-    return x
+        self.moving_speed = 0.075
 
+    def update(self):
+        self.bgX1 -= self.moving_speed
+        self.bgX2 -= self.moving_speed
+        if self.bgX1 <= -self.rectBGimg.height:
+            self.bgX1 = self.rectBGimg.height
+        if self.bgX2 <= -self.rectBGimg.height:
+            self.bgX2 = self.rectBGimg.height
 
-def jump_character(x, y, screen, charactersprite):
-    temp = 0.2
-    for i in range(4000):
-        y -= temp
-        draw_character(x, y, screen, charactersprite)
-        temp -= 0.0001
-        # print(x, y)
+    def render(self, screen):
+        screen.blit(self.bgimage, (self.bgX1, self.bgY1))
+        screen.blit(self.bgimage, (self.bgX2, self.bgY2))
 
 
-def duckcharacter():
+class Bird:
     pass
 
 
-def game(x, y, screen, character_sprite, move, jump, direction):
-    running = True
+class Knife:
+    pass
 
+
+class Player:
+    def __init__(self, sprite: pygame.sprite, crouched: pygame.sprite, background: pygame.sprite,
+                x: int = None, y: int = None) -> None:
+        self.crouched = crouched
+        self.sprite = sprite
+        self.x = x or 224
+        self.y = y or 0
+        self.background = background
+
+    def draw(self, screen):
+        Background.update(self.background)
+        Background.render(self.background, screen)
+        screen.blit(self.sprite, (self.x, self.y))
+        pygame.display.flip()
+
+    def move(self, screen, direction):
+        match direction:
+            case "left":
+                self.x -= 0.4
+                self.draw(screen)
+            case "right":
+                self.x += 0.2
+                self.draw(screen)
+
+        self.x = max(0, min(self.x, 448))
+
+    def jump(self, screen):
+        temp = 0.2
+        for i in range(4000):
+            self.y -= temp
+            self.draw(screen)
+            temp -= 0.0001
+
+    def crouch(self, screen):
+        Background.update(self.background)
+        Background.render(self.background, screen)
+        screen.blit(self.crouched, (self.x, self.y))
+        pygame.display.flip()
+
+
+def game(screen, player1, background, move, jump, direction, crouch):
+    running = True
     while running:
         for event in pygame.event.get():
             match event.type:
@@ -58,7 +94,7 @@ def game(x, y, screen, character_sprite, move, jump, direction):
                             direction = "right"
                             move = True
                         case pygame.K_DOWN:
-                            duck = True
+                            crouch = True
                             # TODO
 
                 case pygame.KEYUP:
@@ -70,30 +106,46 @@ def game(x, y, screen, character_sprite, move, jump, direction):
                         case pygame.K_RIGHT:
                             move = False
                         case pygame.K_DOWN:
-                            duck = False
-        draw_character(x, y, screen, character_sprite)
+                            crouch = False
+        background.update()
+        background.render(screen)
+        if not crouch:
+            player1.draw(screen)
+
+        if player1.y < 448:
+            player1.y += 1
+
         if jump:
-            jump_character(x, y, screen, character_sprite)
-        if move:
-            x = move_character(x, y, screen, character_sprite, direction)
-        if y < 448:
-            y += 1
-        # print(x, y)
+            player1.jump(screen)
+        elif move:
+            player1.move(screen, direction)
+        elif crouch:
+            player1.crouch(screen)
 
 
 def main():
-    x, y = 224, 0
-    move, jump = False, False
+    move, jump, crouch = False, False, False
     direction = "left"
     pygame.init()
+
+    # Load the character's sprite
+    character_sprite = pygame.image.load("character.png")
+    crouched = pygame.image.load("crouched.png")
+
+    # Load the logo into the window
     logo = pygame.image.load("logo.png")
-    charactersprite = pygame.image.load("character.png")
     pygame.display.set_icon(logo)
+
+    # Set the title of the window
     pygame.display.set_caption("Jumpymongus")
 
+    # Window dimensions
     screen = pygame.display.set_mode((512, 512))
 
-    game(x, y, screen, charactersprite, move, jump, direction)
+    background = Background()
+    player1 = Player(character_sprite, crouched, background)
+    print("setup")
+    game(screen, player1, background, move, jump, direction, crouch)
 
 
 if __name__ == "__main__":

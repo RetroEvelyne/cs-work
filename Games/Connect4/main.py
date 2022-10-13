@@ -112,7 +112,8 @@ def fill(row, column, menuscreen, yellowfill, redfill, turn):
         (menuscreen.grid_slaves(row=7, column=3)[0]).destroy()
         menuscreen.geometry("498x266")
         framecnt = 28
-        frms = [PhotoImage(file=r"/Games/Connect4/wingif.gif", format="gif -index %i" % i) for i in range(framecnt)]
+        frms = [PhotoImage(file=r"H:\PogSci\Games\Connect4\wingif.gif",
+                           format="gif -index %i" % i) for i in range(framecnt)]
         win = Label(menuscreen)
         win.grid(row=0, column=0)
         ind = 0
@@ -122,9 +123,9 @@ def fill(row, column, menuscreen, yellowfill, redfill, turn):
 def creategui():
     grid = [0]
     menuscreen = Tk()
-    empty = PhotoImage(file=r"/Games/Connect4/emptypng.png")
-    yellowfill = PhotoImage(file=r"/Games/Connect4/yellowfill.png")
-    redfill = PhotoImage(file=r"/Games/Connect4/redfill.png")
+    empty = PhotoImage(file=r"H:\PogSci\Games\Connect4\emptypng.png")
+    yellowfill = PhotoImage(file=r"H:\PogSci\Games\Connect4\yellowfill.png")
+    redfill = PhotoImage(file=r"H:\PogSci\Games\Connect4\redfill.png")
     menuscreen.title("Connect Four!")
     menuscreen.geometry("743x638")
     turn = Label(menuscreen, text="red")

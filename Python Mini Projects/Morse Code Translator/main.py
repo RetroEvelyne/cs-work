@@ -64,11 +64,11 @@ def main(code_json: str):
         case "code":
             code = MorseConverter(code_json)
             morse = code.decoded_to_morse()
-            print(f"Your Coded String Is:\n{morse}")
+            print(f"\nYour Coded String Is:\n{c.purple}{morse}")
         case "decode":
             decode = MorseConverter(code_json)
             text = decode.morse_to_decoded()
-            print(f"Your Decoded String Is:\n{text}")
+            print(f"\nYour Decoded String Is:\n{c.purple}{text}")
         case _:
             print(f"{c.red}Uh Oh... That's Not Right.\n{c.norm}")
             main(code_json)

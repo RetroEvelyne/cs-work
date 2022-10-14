@@ -1,11 +1,11 @@
-def numsquaresum(numberlist):
+def numsquaresum(numberlist: list) -> int:
     total = 0
     for i in numberlist:
         total += (i ** 2)
     return total
 
 
-def checkforhappy(number, checklist):
+def checkforhappy(number: int, checklist: list) -> bool:
     while number not in checklist:
         numberstring = str(number)
         numberlist = [int(i) for i in numberstring]

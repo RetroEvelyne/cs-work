@@ -5,9 +5,8 @@ def dtob():
     while not valid:
         try:
             while int(num) > 0:
-                n1 = int(num) // 2
                 n2 = int(num) % 2
-                num = n1
+                num = int(num) // 2
                 binum = str(n2) + binum
             valid = True
         except ValueError:
@@ -19,10 +18,9 @@ def btod():
     pass
 
 
-if __name__ == "__main__":
+def main():
     menu = input("Pick Your Options\n1: Denary to Binary\n2: Binary to Denary\n> ")
-    menuvalid = False
-    while not menuvalid:
+    while True:
         match menu:
             case "1":
                 dtob()
@@ -30,3 +28,8 @@ if __name__ == "__main__":
                 btod()
             case _:
                 menu = input("Pick Your Options\n1: Denary to Binary\n2: Binary to Denary\n> ")
+
+
+if __name__ == "__main__":
+    main()
+

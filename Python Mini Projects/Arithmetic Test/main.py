@@ -2,8 +2,8 @@ import colors as c
 from random import choice, randint
 
 
-def get_answer(qtype: str, num1: int, num2: int) -> str:
-    match qtype:
+def get_answer(question_type: str, num1: int, num2: int) -> str:
+    match question_type:
         case "*":
             return str(num1 * num2)
         case "/":
@@ -14,19 +14,19 @@ def get_answer(qtype: str, num1: int, num2: int) -> str:
             return str(num1 - num2)
 
 
-def main(qtype: str, correct: int) -> int:
+def question(question_type: str, correct: int) -> int:
     num1 = randint(1, 12)
     num2 = randint(1, 12)
-    answer = get_answer(qtype, num1, num2)
+    answer = get_answer(question_type, num1, num2)
 
     if answer[-2:] == ".0":
         answer = answer[:(len(answer) - 2)]
 
     while True:
-        if qtype != "/":
-            user_answer = input(f"{c.red}{num1} {c.yellow}{qtype} {c.red}{num2} \n{c.purple}╰-> ")
+        if question_type != "/":
+            user_answer = input(f"{c.red}{num1} {c.yellow}{question_type} {c.red}{num2} \n{c.purple}╰-> ")
         else:
-            user_answer = input(f"{c.red}{num1} {c.yellow}{qtype} {c.red}{num2} (1dp)\n{c.purple}╰-> ")
+            user_answer = input(f"{c.red}{num1} {c.yellow}{question_type} {c.red}{num2} (1dp)\n{c.purple}╰-> ")
 
         if user_answer == "pass":
             break
@@ -45,15 +45,13 @@ def main(qtype: str, correct: int) -> int:
     return correct
 
 
-if __name__ == "__main__":
+def main():
     right = 0
-    while True:
-        qnum = input(f"{c.cyan}How Many Questions Would You Like?\n{c.purple}╰-> ")
-        try:
-            for i in range(int(qnum)):
-                right = main(choice(["*", "/", "+", "-"]), right)
-            break
-        except ValueError:
-            print(f"{c.red}Please Put In A Valid Integer")
+    question_num = 5
+    for i in range(question_num):
+        right = question(choice(["*", "/", "+", "-"]), right)
+    print(f"{c.cyan}You Finished With {c.green}{right}{c.cyan}/{c.red}{question_num}")
 
-    print(f"{c.cyan}You Finished With {c.green}{right}{c.cyan}/{c.red}{qnum}")
+
+if __name__ == "__main__":
+    main()

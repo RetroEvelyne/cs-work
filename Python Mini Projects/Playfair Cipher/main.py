@@ -1,28 +1,3 @@
-# list1 = [
-#     [a, b, c, d, e],
-#     [f, g, h, i, j],
-#     [k, l, m, n, o],
-#     [p, r, s, t, u],
-#     [v, w, x, y, z],
-# ]
-
-# USE A 2D ARRAY!!!
-
-# take in input
-#   - input().lower
-# remove all repeating characters
-#   - convert to set
-#   - convert back to string
-# add each character to a list
-#   - loop
-#   - append
-# work out remaining alphabet
-#   - loop
-#   - (list of alphabet).remove(i)
-# then add remaining alphabet
-#   - loop
-#   - append
-
 def build_alphabet() -> list:
     alphabet = []
     for i in range(65, 91):
@@ -35,7 +10,7 @@ def build_grid_one() -> list:
     grid_one = []
     alphabet = build_alphabet()
     seen = ""
-    word = input("Input First Word: ").upper()
+    word = input("Input First Word: ").upper().replace(" ", "")
     for char in word:
         if char not in seen:
             seen += char
@@ -65,7 +40,7 @@ def build_grid_two():
     grid_two = []
     alphabet = build_alphabet()
     seen = ""
-    word = input("Input Second Word: ").upper()
+    word = input("Input Second Word: ").upper().replace(" ", "")
     for char in word:
         if char not in seen:
             seen += char

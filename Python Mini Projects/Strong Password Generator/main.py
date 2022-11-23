@@ -1,31 +1,43 @@
-# [x] Set the length from 10 to 128
-# [x] Set how complicated the characters can be
-# [x] Calculate password entropy
-# Entropy = Length x Log_2(Number of possible symbols)
-
 # Import math for its log function
 # Import random for its choice function
 from math import log
 from random import choice
 
 
+# Function that uses the formula to find entropy when given the length of the password
+# and the possible character pool
+# Entropy = Length x Log2(character pool)
 def get_entropy(length: int, num_possible: int) -> float:
+    # Entropy is rounded to 3 decimal places for simplicity
     entropy = round(length * log(num_possible, 2), 3)
     return entropy
 
 
-def get_avg_guesses(entropy: float) -> float:
+# Function that uses the formula to find the average number of random guesses it would take
+# to have a 50% chance of cracking the password given the entropy of that password
+# random guesses = 2^(entropy - 1)
+def get_avg_guesses(entropy: float) -> float | str:
     try:
-        avg_guesses = round((2**(entropy - 1)), 3)
+        avg_guesses = round((2 ** (entropy - 1)), 3)
         return avg_guesses
+    # The number of guesses can get pretty large so an Overflow Error is possible here
+    # It is handled with this try-except statement
     except OverflowError:
         return "TOO BIG OF A NUMBER FOR ME"
 
 
+# Functions that generate a string, of which the length is determined by user input
+
+# This will generate a string of random unicode characters
 def unicode_method(length: int) -> tuple:
     password = ""
+
+    # Building a list of allowed_characters for 'choice' to take a pick from
     allowed_characters = list(range(161, 1024))
     allowed_characters = allowed_characters + list(range(33, 127))
+
+    # Each time this loops it chooses a random number from the list and then converts it
+    # to a character before concatenating it on the end of the current password string
     for i in range(length):
         char = choice(allowed_characters)
         password += chr(char)
@@ -117,9 +129,9 @@ def exit_program():
 def main():
     while True:
         menu_input = input("(1) Generate A Password\n"
-              "(2) Show Password Hints\n"
-              "(3) Exit\n"
-              " > ")
+                           "(2) Show Password Hints\n"
+                           "(3) Exit\n"
+                           " > ")
         match menu_input:
             case "1":
                 password_generator()

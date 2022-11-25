@@ -1,0 +1,22 @@
+{
+    "registration_data": [
+        {
+            "name": "dsa",
+            "phone": "54",
+            "reg": "AB88 ABD",
+            "year": 2006
+        },
+        {
+            "name": "aa",
+            "phone": "4324",
+            "reg": "AB05 ABC",
+            "year": 2006
+        },
+        {
+            "name": "rha",
+            "phone": "4439",
+            "reg": "AF52 AFG",
+            "year": 2005
+        }
+    ]
+}

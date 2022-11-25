@@ -4,21 +4,35 @@ import jsonutils
 import sys
 
 
-def registration():
+def get_data() -> dict:
     name, phone, has_reg, year = regvalidator.get_details()
-    data = {"name": name, "phone": phone, "reg": regvalidator.get_reg()}
+    data = {"name": name, "phone": phone, "reg": regvalidator.get_reg(), "year": year}
+    return data
+
+
+def registration():
+    data = get_data()
+    try:
+        year = int(data["year"])
+    except ValueError:
+        print("Invalid year")
+        get_data()
     if year < 2001:
         jsonutils.write_json_file("regdata.json", data)
         print("Registration number saved")
     else:
-
+        if regvalidator.validate_reg(data["reg"]):
+            jsonutils.write_json_file("regdata.json", data)
+            print("Registration number saved")
 
 
 def find_reg():
     reg = regvalidator.get_reg()
     if regvalidator.validate_reg(reg):
         name, phone = findreg.find_reg_from_json(reg)
-        print(name, phone, reg)
+        print(f"Name: {name}\n"
+              f"Phone: {phone}\n"
+              f"Registration: {reg}")
         input("Press enter to continue")
         menu()
     else:

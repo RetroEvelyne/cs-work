@@ -25,7 +25,7 @@ class LinkedList:
     def swap_two_taxis(self, first_node, second_node):
         # Find first taxi
         before_first = None
-        first = self.head
+        first = self.head.next
         while first:
             try:
                 if first.data == first_node:
@@ -36,7 +36,7 @@ class LinkedList:
                 return
         # Find second taxi
         before_second = None
-        second = self.head
+        second = self.head.next
         while second:
             try:
                 if second.data == second_node:
@@ -53,9 +53,10 @@ class LinkedList:
             before_first.next = second
             before_second.next = first
         except AttributeError:
-            ...
-            # TODO
-            # EITHER FIRST OR SECOND IS THE HEAD AND SO IT DOESN'T HAVE A BEFORE
+            if before_first is None:
+                print("before first")
+            elif before_second is None:
+                print("before second")
 
 
 class Car:

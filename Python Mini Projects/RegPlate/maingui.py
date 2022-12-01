@@ -30,9 +30,8 @@ class Registration:
     def __init__(self, parent):
         self.window = ctk.CTkToplevel()
         self.window.geometry("400x240")
-        # self.window.title("Registration")
-        # self.window.resizable(False, False)
-        # self.window.iconbitmap(r"./images/icon.ico")
+        self.window.title("Registration")
+        self.window.iconbitmap(r"./images/icon.ico")
 
         self.name = ctk.CTkEntry(self.window, placeholder_text="Name")
         self.name.pack(padx=5, pady=5)

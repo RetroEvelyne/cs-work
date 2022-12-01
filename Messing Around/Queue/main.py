@@ -12,13 +12,13 @@ class Queue:
         self._tail: int = 0  # > tail: Index of the tail of the Queue
 
     # Allow the queue to be printed in a formatted way
-    def __str__(self):
+    def __str__(self) -> str:
         return_str = ""
         for i in range(len(self._items) - 1):
             return_str += f"{c.cyan}{self._items[i]} {c.purple}-> {c.norm}"
         return return_str + f"{c.cyan}{str(self._items[-1])}{c.norm}"
 
-    # Print Error Message
+    # Print Error Message Then Exit With Code 1
     @staticmethod
     def _fatal(error: str):
         print(f"{c.red}Error: {c.yellow}{error}{c.norm}")
@@ -26,6 +26,7 @@ class Queue:
 
     # Check if the Queue is full
     def is_full(self) -> bool:
+        # See if the tail and head are neighbors & See if the tail is at the end and the head is at the start
         return (self._tail + 1 == self._head) or (self._tail == self.maxsize and self._head == 0)
 
     # Check if the Queue is empty
@@ -34,7 +35,6 @@ class Queue:
 
     # Enqueue an item to the Queue
     def enqueue(self, item):
-        print(f"tail: {self._tail}, head: {self._head}")
         # If it is full then return an error
         if self.is_full():
             self._fatal("Error queue is full")
@@ -47,7 +47,7 @@ class Queue:
         self._tail += 1
 
     # Dequeue an item from the Queue
-    def dequeue(self):
+    def dequeue(self) -> tuple:
         # If it is empty then return an error
         if self.is_empty():
             self._fatal("Error queue is empty")
@@ -56,12 +56,11 @@ class Queue:
         self._items[self._head] = None
         # Increment the head and return the item
         self._head += 1
-        print(f"{c.green}Dequeued {c.cyan}{item}{c.green} from the queue{c.norm}")
-        return item
+        return item, f"{c.green}Dequeued {c.cyan}{item}{c.green} from the queue{c.norm}"
 
 
 if __name__ == "__main__":
-    q = Queue(5)
+    q: Queue = Queue(5)
     print(f"{c.green}Queue: {c.norm}{q}")
     q.enqueue(1)
     print(f"{c.green}Queue: {c.norm}{q}")
@@ -73,7 +72,7 @@ if __name__ == "__main__":
     print(f"{c.green}Queue: {c.norm}{q}")
     q.enqueue(5)
     print(f"{c.green}Queue: {c.norm}{q}")
-    q.dequeue()
+    print(q.dequeue()[1])
     print(f"{c.green}Queue: {c.norm}{q}")
-    q.enqueue("69")
+    q.enqueue("6")
     print(f"{c.green}Queue: {c.norm}{q}")

@@ -37,7 +37,7 @@ class Queue:
     def enqueue(self, item):
         # If it is full then return an error
         if self.is_full():
-            self._fatal("Error queue is full")
+            self._fatal("Queue is full")
         # If the tail is at the end of the list then reset it to 0
         # This allows the queue to be circular
         if self._tail == self.maxsize:
@@ -50,7 +50,7 @@ class Queue:
     def dequeue(self) -> tuple:
         # If it is empty then return an error
         if self.is_empty():
-            self._fatal("Error queue is empty")
+            self._fatal("Queue is empty")
         # Get item at the head and then set it to None
         item = self._items[self._head]
         self._items[self._head] = None
@@ -61,18 +61,4 @@ class Queue:
 
 if __name__ == "__main__":
     q: Queue = Queue(5)
-    print(f"{c.green}Queue: {c.norm}{q}")
-    q.enqueue(1)
-    print(f"{c.green}Queue: {c.norm}{q}")
-    q.enqueue(2)
-    print(f"{c.green}Queue: {c.norm}{q}")
-    q.enqueue(3)
-    print(f"{c.green}Queue: {c.norm}{q}")
-    q.enqueue(4)
-    print(f"{c.green}Queue: {c.norm}{q}")
-    q.enqueue(5)
-    print(f"{c.green}Queue: {c.norm}{q}")
-    print(q.dequeue()[1])
-    print(f"{c.green}Queue: {c.norm}{q}")
-    q.enqueue("6")
-    print(f"{c.green}Queue: {c.norm}{q}")
+    q.dequeue()

@@ -35,6 +35,8 @@ def build_grid_one() -> list:
         print()
     print("╘═══╛╘═══╛╘═══╛╘═══╛╘═══╛")
 
+    return grid_one
+
 
 def build_grid_two():
     grid_two = []
@@ -67,6 +69,8 @@ def build_grid_two():
             print(f"| {grid_two[y][x]} |", end="")
         print()
     print("╘═══╛╘═══╛╘═══╛╘═══╛╘═══╛")
+
+    return grid_two
 
 
 build_grid_one()

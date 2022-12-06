@@ -1,34 +1,45 @@
-from CustomDataTypes import Stack, Colors as c
+from CustomDataTypes import Stack, Colors as C
+from sys import stdin
 
 
 class Game:
+    COLUMNS = ["A", "B", "C", "D", "E", "F", "G"]
+
     def __init__(self):
-        self.game_board = [[{"symbol": "✪", "color": "none"} for _ in range(7)] for _ in range(6)]
-        self.turn = 1
+        self.game_board = [[{"symbol": "✪", "color": "None"} for _ in range(7)] for _ in range(6)]
+        self.turn = "red"
 
     def play(self):
         while True:
             self.print_game_board()
             print(f"Turn: {self.turn}")
-            self.turn += 1
+            match self.turn:
+                case "red":
+                    while True:
+                        print("\033[A\033[J", end="")
+                        column = input("Column:")
+                        if column.upper() in Game.COLUMNS:
+                            break
+                    self.turn = "yellow"
+                case "yellow":
+                    ...
+                    self.turn = "red"
             break
 
     def print_game_board(self):
-        print(f"{c.purple}     1     2     3     4     5     6     7")
-        print(f"{c.blue} --------------------------------{c.norm}")
+        print(f"{C.blue} --------------------------------{C.norm}")
         for row in self.game_board:
             for col in row:
                 match col["color"]:
                     case "red":
-                        print(f" {c.blue}| {c.red}{col['symbol']}{c.norm}", end="")
+                        print(f" {C.blue}| {C.red}{col['symbol']}{C.norm}", end="")
                     case "yellow":
-                        print(f" {c.blue}| {c.yellow}{col['symbol']}{c.norm}", end="")
+                        print(f" {C.blue}| {C.yellow}{col['symbol']}{C.norm}", end="")
                     case _:
-                        print(f" {c.blue}| {c.norm}{col['symbol']}", end="")
-            print(f"{c.blue} |{c.norm}")
-            print(f"{c.blue} --------------------------------{c.norm}")
+                        print(f" {C.blue}| {C.norm}{col['symbol']}", end="")
+            print(f"{C.blue} |{C.norm}")
+            print(f"{C.blue} --------------------------------{C.norm}")
 
 
 if __name__ == "__main__":
-    game = Game()
-    game.play()
+    Game().play()

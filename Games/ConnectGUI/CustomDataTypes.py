@@ -81,11 +81,14 @@ class Stack:
             return_str += f"{Colors.cyan}{self._items[item]} {Colors.purple} |  {Colors.norm}"
         return return_str + f"{Colors.cyan}{str(self._items[-1])}{Colors.norm}"
 
+    def __getitem__(self, item):
+        return self._items[item]
+
     # Print Error Message Then Exit With Code 1
     @staticmethod
     def _fatal(error: str):
         print(f"{Colors.red}Error: {Colors.yellow}{error}{Colors.norm}")
-        exit(1)
+        return OverflowError
 
     # Push an item to the stack
     def push(self, item):

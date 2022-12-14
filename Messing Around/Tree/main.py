@@ -25,6 +25,7 @@ class Tree:
         while node not in parent.next:
             nodes_list.pop(0)
             parent = nodes_list[0]
+        parent.next.remove(node)
 
 
 if __name__ == "__main__":

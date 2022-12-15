@@ -229,8 +229,8 @@ class Game:
                 self.board.board[self.translate_letters(move[3])][int(move[4]) - 1].first_move = False
             case _:
                 pass
-        #self.board.board[self.translate_letters(move[3])][int(move[4]) - 1] = \
-            #self.board.board[self.translate_letters(move[0])][int(move[1]) - 1]
+        # self.board.board[self.translate_letters(move[3])][int(move[4]) - 1] = \
+        # self.board.board[self.translate_letters(move[0])][int(move[1]) - 1]
         self.board.board[self.translate_letters(move[0])][int(move[1]) - 1] = None
 
     def check_for_checkmate(self):

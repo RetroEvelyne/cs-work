@@ -66,6 +66,10 @@ class NumbersGame:
                 sleep(1)
             print("\nTime's Up!")
             answer: int = intput("What Did You Get?\n> ")
+            if answer == self._target:
+                print("Correct!\n10 Points!")
+            elif (answer - self._target) in range(-10, 11):
+                print(f"Close! You Got {abs(answer - self._target)} Points!")
             break
 
     # My Own Version Of CECIL That Makes Every Round Possible To Solve

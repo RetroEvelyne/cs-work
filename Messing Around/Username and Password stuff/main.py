@@ -4,12 +4,15 @@ import jsonUtils as jsu
 from time import sleep
 
 
+# Prints out text one character at a time with a short delay
+# This creates a typing effect
 def type_print(text: str, speed: float = 0.1):
     for char in text:
         print(char, end="", flush=True)
         sleep(speed)
 
 
+# Adds a new user to the users.json file using JsonUtils
 def create_user(user_data: dict):
     data: dict = jsu.openfile("users.json")
     data["users"].append(user_data)
@@ -44,7 +47,7 @@ def login_to_user(tries: int = 0):
             login_to_user(tries + 1)
     else:
         type_print(f"Welcome back, {username}!")
-        print()
 
 
-login_to_user()
+if __name__ == "__main__":
+    login_to_user()

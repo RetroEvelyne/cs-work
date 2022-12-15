@@ -1,4 +1,12 @@
 {
   "users": [
+    {
+      "username": "hha",
+      "password": "64f25683decade8aadfd82634726bf0a85ec0476ad6c56cbe9be153a07b7fbec"
+    },
+    {
+      "username": "hello",
+      "password": "e244f187f696561d5fd7e00f618e7ba641dc52e3c137380f6fa23a854b773aac"
+    }
   ]
 }
